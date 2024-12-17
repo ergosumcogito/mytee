@@ -1,0 +1,22 @@
+# Compiled object files
+*.o
+*.obj
+
+# Compiled executable files
+*.exe
+*.out
+mytee  # Replace with your actual executable name
+
+# Debugging files
+*.dSYM
+
+# Backup files
+*~
+
+# IDE-specific files (if using IDE like CLion, VSCode, etc.)
+.idea/
+.vscode/
+
+# Build directory (if you have a separate build directory)
+build/
+cmake-build-debug/
