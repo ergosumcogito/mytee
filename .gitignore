@@ -6,6 +6,7 @@
 *.exe
 *.out
 mytee  # Replace with your actual executable name
+main
 
 # Debugging files
 *.dSYM
