@@ -15,6 +15,7 @@ int tee(const char *fileName) {
     while (fgets(output, BUFFER_SIZE, stdin) != NULL){
         // Part1: print to stdout
         printf("%s", output);
+        fflush(stdout);
 
         // Part2: write to file
         if (fputs(output, file) == EOF) {
