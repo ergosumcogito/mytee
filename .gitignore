@@ -5,7 +5,8 @@
 # Compiled executable files
 *.exe
 *.out
-mytee  # Replace with your actual executable name
+# Replace with your actual executable name
+mytee
 main
 
 # Debugging files
