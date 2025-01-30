@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -std=c99
+CFLAGS = -Wall -std=c17
 
 # Define the executable, name of .exe
 TARGET = mytee
