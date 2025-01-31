@@ -13,12 +13,7 @@ void tee(TeeOptions *options) {
     while (fgets(buffer, sizeof(buffer), stdin) != NULL) {
         for (int i = 0; i < options->file_count; i++) {
             if (files[i] && fputs(buffer, files[i]) == EOF) {
-                fprintf(stderr, "Error writing to %s\n", options->files[i]);
-
-                if (options->output_error == 2) {
-                    close_files(files, options->file_count);
-                        exit(1);
-                }
+                handle_file_error(options, options->files[i]);
             }
         }
 

@@ -2,6 +2,14 @@
 #include <stdlib.h>
 #include "file_utils.h"
 
+void handle_file_error(TeeOptions *options, const char *filename) {
+    fprintf(stderr, "Error writing to %s\n", filename);
+
+    if (options->output_error == 2) {
+        exit(1);
+    }
+}
+
 FILE **open_files(TeeOptions *options) {
     FILE **files = malloc(options->file_count * sizeof(FILE *));
     if (!files) {
