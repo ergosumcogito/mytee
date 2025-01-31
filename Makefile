@@ -1,21 +1,28 @@
 CC = gcc
-CFLAGS = -Wall -std=c17
-
-# Define the executable, name of .exe
-TARGET = mytee
+CFLAGS = -Wall -Wextra -std=c17 -I./include
+SRC_DIR = src
+BUILD_DIR = build
+INCLUDE_DIR = include
 
 # Define the source files
-SRCS = main.c
+SRCS = $(wildcard $(SRC_DIR)/*.c)
+OBJS = $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRCS))
+TARGET = mytee
 
-# Define the object files
-OBJS = $(SRCS:.c=.o)
-
-# Define the target rules
 all: $(TARGET)
 
-$(TARGET): $(OBJS)
+# Ensure build directory exists
+$(BUILD_DIR):
+	mkdir -p $(BUILD_DIR)
+
+# Build the executable
+$(TARGET): $(BUILD_DIR) $(OBJS)
 	$(CC) $(OBJS) -o $(TARGET)
 
-# Clean the build
+# Compile .c files to .o files inside build/
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
+	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
+
+# Clean target
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm -rf $(BUILD_DIR) $(TARGET)

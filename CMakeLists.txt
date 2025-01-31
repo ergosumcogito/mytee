@@ -18,4 +18,8 @@ add_custom_target(
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )
 
-add_executable(mytee main.c)
+include_directories(${CMAKE_SOURCE_DIR}/include)
+
+file(GLOB SOURCES "src/*.c")
+
+add_executable(YourExecutable ${SOURCES})
