@@ -11,6 +11,10 @@ void handle_file_error(TeeOptions *options, const char *filename) {
 }
 
 FILE **open_files(TeeOptions *options) {
+    if (options->file_count == 0) {
+        return NULL;
+    }
+
     FILE **files = malloc(options->file_count * sizeof(FILE *));
     if (!files) {
         fprintf(stderr, "Memory allocation error\n");
