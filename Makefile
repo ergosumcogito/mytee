@@ -9,7 +9,7 @@ INCLUDE_DIR = include
 ifeq ($(OS),Windows_NT)
     # Windows commands: use CMD syntax
     MKDIR = if not exist $(BUILD_DIR) mkdir $(BUILD_DIR)
-    RM = if exist $(BUILD_DIR) rmdir /s /q $(BUILD_DIR) & if exist $(TARGET) del /f /q $(TARGET)
+    RM = if exist $(BUILD_DIR) rmdir /s /q $(BUILD_DIR) & if exist $(TARGET).exe del /f /q $(TARGET).exe
 else
     # Linux/macOS commands
     MKDIR = mkdir -p $(BUILD_DIR)
