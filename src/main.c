@@ -9,6 +9,5 @@ int main(int argc, char *argv[]) {
     parse_args(argc, argv, &options);
     setup_signal_handling(&options);
 
-    tee(&options);
-    return 0;
+    return tee(&options);;
 }

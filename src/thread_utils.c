@@ -42,27 +42,29 @@ void *write_to_console_thread(void *arg) {
     }
     fflush(stdout);
     pthread_mutex_unlock(&console_mutex);
-
     free(data);
     return NULL;
 }
 
 // Function to create and launch threads for writing
-void write_to_files_and_console(FILE **files, int file_count, const char *data) {
+int write_to_files_and_console(FILE **files, int file_count, const char *data) {
     pthread_t threads[file_count + 1];  // +1 for console thread
+    int exit_code = 0;
+    int thread_count = 0;  // Track created threads
 
     // Start console output thread
-    char *console_data = my_strdup(data);  // Copy data for thread safety
+    char *console_data = my_strdup(data);
     if (!console_data) {
         fprintf(stderr, "Memory allocation failed for console data\n");
-        return;
+        return 2;
     }
 
-    if (pthread_create(&threads[file_count], NULL, write_to_console_thread, console_data) != 0) {
+    if (pthread_create(&threads[thread_count], NULL, write_to_console_thread, console_data) != 0) {
         fprintf(stderr, "Error creating console output thread\n");
         free(console_data);
+        exit_code = 1;
     } else {
-        pthread_detach(threads[file_count]); // Detach the console thread as well
+        thread_count++;
     }
 
     // Start file write threads
@@ -71,6 +73,7 @@ void write_to_files_and_console(FILE **files, int file_count, const char *data) 
             ThreadArgs *args = malloc(sizeof(ThreadArgs));
             if (!args) {
                 fprintf(stderr, "Memory allocation failed for file thread arguments\n");
+                exit_code = 1;
                 continue;
             }
 
@@ -79,17 +82,26 @@ void write_to_files_and_console(FILE **files, int file_count, const char *data) 
             if (!args->data) {
                 fprintf(stderr, "Memory allocation failed for file data\n");
                 free(args);
+                exit_code = 1;
                 continue;
             }
 
-            if (pthread_create(&threads[i], NULL, write_to_file_thread, args) != 0) {
+            if (pthread_create(&threads[thread_count], NULL, write_to_file_thread, args) != 0) {
                 fprintf(stderr, "Error creating thread for file %d\n", i);
                 free(args->data);
                 free(args);
+                exit_code = 1;
             } else {
-                pthread_detach(threads[i]); // Detach the thread so resources are cleaned up automatically
+                thread_count++;
             }
         }
     }
 
+    // Join threads to ensure they complete execution
+    for (int i = 0; i < thread_count; i++) {
+        pthread_join(threads[i], NULL);
+    }
+
+    return exit_code;
 }
+
