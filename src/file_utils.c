@@ -4,7 +4,6 @@
 
 void handle_file_error(TeeOptions *options, const char *filename) {
     fprintf(stderr, "Error writing to %s\n", filename);
-
     if (options->output_error == 2) {
         exit(1);
     }
@@ -30,6 +29,8 @@ FILE **open_files(TeeOptions *options) {
             if (options->output_error == 2) {
                 free(files);
                 exit(1);
+            } else {
+                files[i] = NULL; // Case --output-error=warn: continue after error
             }
         }
     }
@@ -37,8 +38,10 @@ FILE **open_files(TeeOptions *options) {
 }
 
 void close_files(FILE **files, int file_count) {
-    for (int i = 0; i < file_count; i++) {
-        if (files[i]) fclose(files[i]);
+    if (files == NULL) {
+        for (int i = 0; i < file_count; i++) {
+            if (files[i]) fclose(files[i]);
+        }
+        free(files);
     }
-    free(files);
 }
