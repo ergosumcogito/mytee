@@ -3,6 +3,6 @@
 
 #include "structs.h"
 
-void tee(TeeOptions *options);
+int tee(TeeOptions *options);
 
 #endif //TEE_H
