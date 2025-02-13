@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "structs.h"
 #include "args.h"
 #include "tee.h"
