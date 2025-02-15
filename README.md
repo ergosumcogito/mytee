@@ -11,3 +11,5 @@ Example `echo 'Hello, World!' | ./mytee output.txt`
 - `make test` - run both unit and integrations tests
 - `make test-unit` - run only unit tests
 - `make test-integration` - run only integratoin tests
+
+In addition: `make clean` - removes not only buid files, but **also** .txt for tests.
