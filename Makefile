@@ -15,12 +15,12 @@ else
     RM = rm -rf $(BUILD_DIR) $(TARGET) test_tee
 endif
 
-# Основные исходные файлы (все .c из src/)
+# Main sources
 SRCS = $(wildcard $(SRC_DIR)/*.c)
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRCS))
 TARGET = mytee
 
-# Исключаем объект main.o из тестовой сборки
+# Exclude main.o from test build
 MAIN_OBJS = $(filter-out $(BUILD_DIR)/main.o, $(OBJS))
 
 all: $(TARGET)
@@ -34,7 +34,7 @@ $(TARGET): $(BUILD_DIR) $(OBJS)
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
 	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
 
-# Сборка тестового бинарника
+# Build test binary
 TEST_SRCS = $(wildcard $(TEST_DIR)/*.c)
 TEST_OBJS = $(patsubst $(TEST_DIR)/%.c, $(BUILD_DIR)/%.test.o, $(TEST_SRCS))
 TEST_TARGET = test_tee
