@@ -2,11 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <fcntl.h>
 #include <assert.h>
 #include "thread_utils.h"
-#include "tee.h"
-#include "file_utils.h"
 
 
 void test_write_to_stdout() {
